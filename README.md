@@ -1,4 +1,6 @@
 # sonarqube-reporting-app
+This is a Spring boot Java application to give a UI page where the user can submit their SonarQube project key to get their XLS report on their last SonarQube analysis of the given project. We plan to add more reports and features down the line for downloads.
+
 In order to make it run on your local, do the following:-
 1) Download the project and via Maven, run the mvn eclipse:eclipse command from your root of this project.
 2) Next, import this project into your Eclipse.
