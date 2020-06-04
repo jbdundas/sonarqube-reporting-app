@@ -1,7 +1,5 @@
 package com.jnd.sonarqube.beans;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +11,13 @@ public class ServerBean {
 	
 	public static final Logger LOG = LogManager.getLogger(ServerBean.class);
 	
-	@Autowired
-    @Value("${sonar.server.url:http://localhost:9000}")
+    @Value("${sonar.server.url}")
 	private String sonarQubeUrl;
     
-	@Autowired
-    @Value("${sonar.server.username:admin}")
+    @Value("${sonar.server.username}")
 	private String sonarQubeUserName;
     
-	@Autowired
-    @Value("${sonar.server.password:admin}")
+    @Value("${sonar.server.password}")
 	private String sonarQubeUserPwd;
 
 	public ServerBean() {
@@ -52,8 +47,8 @@ public class ServerBean {
 		this.sonarQubeUserPwd = sonarQubeUserPwd;
 	}
 
-    @PostConstruct
-	public void init() {
+    @Autowired
+	public ServerBean(@Value("${sonar.server.url}") String sonarQubeUrl,@Value("${sonar.server.username}") String sonarQubeUserName, @Value("${sonar.server.username}") String sonarQubeUserPwd) {
 		this.sonarQubeUrl = sonarQubeUrl;
 		this.sonarQubeUserName = sonarQubeUserName;
 		this.sonarQubeUserPwd = sonarQubeUserPwd;

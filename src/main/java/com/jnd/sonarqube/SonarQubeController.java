@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.jnd.sonarqube.beans.MeasuresBean;
 import com.jnd.sonarqube.beans.ServerBean;
+import com.jnd.sonarqube.services.EmailService;
 import com.jnd.sonarqube.services.MeasuresService;
 import com.jnd.sonarqube.services.PoiService;
 
@@ -30,9 +31,12 @@ public class SonarQubeController {
 	@Autowired
 	private ServerBean serverBean;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	@RequestMapping(value = "/export_project_measures", method = RequestMethod.GET)
 	@ResponseBody
-	public FileSystemResource  export_project_measures(@RequestParam(name="project_key", required=true, defaultValue="all") String project_key, Model model) {
+	public FileSystemResource  export_project_measures(@RequestParam(name="project_key", required=true, defaultValue="all") String project_key,@RequestParam(name="email_to", required=false, defaultValue="all") String email_to, Model model) {
 		LOG.info("Export project measures for -> "+ project_key + " # serverBean -> "+ serverBean.toString());
 		MeasuresBean measuresBean = measuresService.fetchProjectMeasures(project_key);
 		//export to excel..
@@ -40,6 +44,12 @@ public class SonarQubeController {
 		
 		model.addAttribute("project_key",project_key );
 		model.addAttribute("report_file", report_file);
+		
+		try {
+			emailService.sendEmail(report_file,email_to);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return new FileSystemResource(report_file); 
 	}
