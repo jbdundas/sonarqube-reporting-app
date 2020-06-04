@@ -2,6 +2,8 @@ package com.jnd.sonarqube.beans;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,23 +11,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class ServerBean {
 	
+	public static final Logger LOG = LogManager.getLogger(ServerBean.class);
+	
 	@Autowired
-    @Value("${sonar.server.url}")
+    @Value("${sonar.server.url:http://localhost:9000}")
 	private String sonarQubeUrl;
     
 	@Autowired
-    @Value("${sonar.server.username}")
+    @Value("${sonar.server.username:admin}")
 	private String sonarQubeUserName;
     
 	@Autowired
-    @Value("${sonar.server.password}")
+    @Value("${sonar.server.password:admin}")
 	private String sonarQubeUserPwd;
 
-	@Autowired
-	public ServerBean(String sonarQubeUrl, String sonarQubeUserName, String sonarQubeUserPwd) {
-		this.sonarQubeUrl = sonarQubeUrl;
-		this.sonarQubeUserName = sonarQubeUserName;
-		this.sonarQubeUserPwd = sonarQubeUserPwd;
+	public ServerBean() {
 	}
 	
 	public String getSonarQubeUrl() {
@@ -54,7 +54,10 @@ public class ServerBean {
 
     @PostConstruct
 	public void init() {
-		
+		this.sonarQubeUrl = sonarQubeUrl;
+		this.sonarQubeUserName = sonarQubeUserName;
+		this.sonarQubeUserPwd = sonarQubeUserPwd;
+		LOG.info("ServerBean = "+ this.toString());
 	}
 	
 	@Override

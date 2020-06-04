@@ -2,7 +2,7 @@ package com.jnd.sonarqube.utils;
 
 public class SonarQubeConstants {
 	
-	public static final String PROJECT_MEASURES_API = "/api/measures/component/";
+	public static final String PROJECT_MEASURES_API = "/api/measures/component";
 
 	/*
 	   "msg": "The following metric keys are not found: security_hotspots_reviewed, conditions_by_line, branch_coverage_hits_data"

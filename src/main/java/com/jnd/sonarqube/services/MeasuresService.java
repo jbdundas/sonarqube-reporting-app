@@ -1,10 +1,10 @@
 package com.jnd.sonarqube.services;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.jnd.sonarqube.beans.MeasuresBean;
 import com.jnd.sonarqube.beans.ServerBean;
@@ -19,12 +19,18 @@ public class MeasuresService {
 	private ServerBean serverBean;
 	
 	public MeasuresBean fetchProjectMeasures(String project_key) {
-		String project_measures_url = serverBean.getSonarQubeUrl() + SonarQubeConstants.PROJECT_MEASURES_API;
+		serverBean.init();
 		
-		Map<String, String> vars = new HashMap<>();
-		vars.put("additionalFields", "periods");
-		vars.put("component", "project_key");
-		vars.put("metricKeys", SonarQubeConstants.SONAR_METRICS);
+		//String project_measures_url = serverBean.getSonarQubeUrl() + SonarQubeConstants.PROJECT_MEASURES_API;
+		
+		URI project_measures_url = UriComponentsBuilder.fromUriString(serverBean.getSonarQubeUrl())
+									.path(SonarQubeConstants.PROJECT_MEASURES_API)
+									.queryParam("metricKeys", SonarQubeConstants.SONAR_METRICS)
+									.queryParam("component", project_key)
+									.queryParam("additionalFields", "periods")
+									.build()
+									.encode()
+									.toUri();
 		MeasuresBean measuresBean = restTemplate.getForObject(project_measures_url, MeasuresBean.class);
 		return measuresBean;
 	}
