@@ -14,7 +14,7 @@ import com.jnd.sonarqube.utils.SonarQubeConstants;
 
 public class MeasuresService {
 
-	public static final Logger LOG = LogManager.getLogger(MeasuresService.class);
+	public static final Logger Logger = LogManager.getLogger(MeasuresService.class);
 	
 	@Autowired
 	private RestTemplate restTemplate;
@@ -22,19 +22,23 @@ public class MeasuresService {
 	@Autowired
 	private ServerBean serverBean;
 	
-	public MeasuresBean fetchProjectMeasures(String project_key) {
+	public MeasuresBean fetchProjectMeasures(String projectKey) {
 		
-		LOG.info("serverBean="+serverBean.toString());		
-		URI project_measures_url = UriComponentsBuilder.fromUriString(serverBean.getSonarQubeUrl())
+		if (Logger.isDebugEnabled()) {
+			Logger.debug("serverBean -> {}",serverBean);
+		}
+				
+		URI projectMeasuresUrl = UriComponentsBuilder.fromUriString(serverBean.getSonarQubeUrl())
 									.path(SonarQubeConstants.PROJECT_MEASURES_API)
 									.queryParam("metricKeys", SonarQubeConstants.SONAR_METRICS)
-									.queryParam("component", project_key)
+									.queryParam("component", projectKey)
 									.queryParam("additionalFields", "periods")
 									.build()
 									.encode()
 									.toUri();
-		MeasuresBean measuresBean = restTemplate.getForObject(project_measures_url, MeasuresBean.class);
-		return measuresBean;
+		
+		//FIXME: Replace this call with the sonar-ws-client wrapper client to make it easier for reading and making API calls with SonarQube.
+		return restTemplate.getForObject(projectMeasuresUrl, MeasuresBean.class);
 	}
 
 }

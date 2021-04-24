@@ -7,12 +7,16 @@ import java.io.IOException;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.jnd.sonarqube.beans.Measures;
 import com.jnd.sonarqube.beans.MeasuresBean;
 
 public class PoiService {
 
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	
 	public File exportProjectMeasuresReport(MeasuresBean measuresBean) {
 
 		Workbook workbook = new XSSFWorkbook();
@@ -52,31 +56,26 @@ public class PoiService {
 
         // Write the output to a file
         FileOutputStream fileOut = null;
-        File report_file = new File("SonarQube_Report_For_" + measuresBean.getComponent().getName() + ".xlsx");
-		try {
+        File report_file = new File("SonarQube_Report_For_" + measuresBean.getComponent().getName() + "_" +System.currentTimeMillis() + ".xlsx");
+        report_file.setReadable(Boolean.TRUE);
+        
+        //FIXME: Replace this with try-with-resources 
+		try{
 			
 			fileOut = new FileOutputStream(report_file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-        try {
 			workbook.write(fileOut);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        
-        try {
-			fileOut.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-        // Closing the workbook
-        try {
-			workbook.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			
+		} catch (FileNotFoundException fnfe) {
+			LOG.error("FileNotFoundException", fnfe);
+		} catch (IOException ioe) {
+			LOG.error("IOException", ioe);
+		}finally {
+			try {
+				fileOut.close();
+				workbook.close();
+			} catch (IOException ioe2) {
+				LOG.error("IOException while closing resources", ioe2);
+			}
 		}
         
         return report_file;

@@ -10,4 +10,5 @@ public class SonarQubeApp {
         SpringApplication.run(SonarQubeApp.class, args);
     }
 
+    
 }

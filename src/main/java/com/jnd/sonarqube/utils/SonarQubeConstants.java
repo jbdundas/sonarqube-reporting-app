@@ -22,4 +22,17 @@ public class SonarQubeConstants {
 			+ "uncovered_conditions,new_uncovered_conditions,uncovered_lines,new_uncovered_lines,tests,"
 			+ "test_execution_time,test_execution_time,test_failures,test_success_density";
 
+	public static final String MAIL_DEBUG = "spring.mail.properties.mail.debug";
+	public static final String MAIL_SMTP_STARTTLS_ENABLE_PROP_KEY = "mail.smtp.starttls.enable";
+	public static final String MAIL_SMTP_STARTTLS_ENABLE_PROP_TEXT = "spring.mail.properties.mail.smtp.starttls.enable";
+	public static final String MAIL_SMTP_AUTH = "spring.mail.properties.mail.smtp.auth";
+	public static final String SMTP_MAIL_TRANSPORT_PROTOCOL = "spring.mail.properties.mail.transport.protocol";
+	public static final String SMTP_MAIL_TRANSPORT_PORT = "spring.mail.port";
+	public static final String SMTP_MAIL_TRANSPORT_HOST = "smtp.gmail.com";
+	public static final String SMTP_GMAIL_USERNAME = "spring.mail.username";
+	public static final String SMTP_GMAIL_PASSWORD = "spring.mail.password";
+	public static final String MAIL_SMTP_CONN_TIMEOUT = "spring.mail.properties.mail.smtp.connectiontimeout";
+	public static final String MAIL_SMTP_TIMEOUT = "spring.mail.properties.mail.smtp.timeout";
+	public static final String MAIL_SMTP_WRITE_TIMEOUT = "spring.mail.properties.mail.smtp.writetimeout";
+			
 }
