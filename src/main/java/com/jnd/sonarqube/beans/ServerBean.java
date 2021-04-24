@@ -94,8 +94,7 @@ public class ServerBean {
 
 	@Override
 	public String toString() {
-		return "ServerBean [sonarQubeUrl=" + sonarQubeUrl + ", sonarQubeUserName=" + sonarQubeUserName
-				+ ", sonarQubeUserPwd=" + sonarQubeUserPwd + "]";
+		return "ServerBean [sonarQubeUrl=" + sonarQubeUrl + ", sonarQubeUserName=" + sonarQubeUserName + "]";
 	}
     
 	
